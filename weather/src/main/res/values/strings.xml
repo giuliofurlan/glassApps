@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">weather</string>
+    <string name="title_activity_live_card_service">Weather LiveCard</string>
+    <string name="action_decrease">Decrease</string>
+    <string name="action_increase">Increase</string>
+    <string name="action_stop">Stop</string>
+</resources>

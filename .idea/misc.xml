@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.26443768996960487" />
+        <entry key="app/src/main/res/menu/live_card.xml" value="1.625" />
+        <entry key="opencv/src/main/res/layout/activity_main.xml" value="0.2570921985815603" />
+        <entry key="phoneapp/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.195" />
+        <entry key="phoneapp/src/main/res/drawable/ic_launcher_background.xml" value="0.359" />
+        <entry key="phoneapp/src/main/res/layout/activity_error.xml" value="0.21203703703703702" />
+        <entry key="phoneapp/src/main/res/layout/activity_main.xml" value="0.21203703703703702" />
+        <entry key="phoneapp/src/main/res/layout/activity_send_to_glass.xml" value="0.21203703703703702" />
+        <entry key="spotify/src/main/res/drawable/ic_launcher_background.xml" value="0.259" />
+        <entry key="spotify/src/main/res/layout/live_card.xml" value="0.18363728470111448" />
+        <entry key="spotify/src/main/res/menu/live_card.xml" value="0.37407407407407406" />
+        <entry key="spotify/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.259" />
+        <entry key="weather/src/main/res/layout/live_card.xml" value="1.1" />
+        <entry key="weather/src/main/res/menu/live_card.xml" value="0.37407407407407406" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
