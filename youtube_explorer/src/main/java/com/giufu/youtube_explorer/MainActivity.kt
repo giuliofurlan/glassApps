@@ -1,6 +1,7 @@
 package com.giufu.youtube_explorer
 
 import android.app.Activity
+import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -8,9 +9,8 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.AsyncTask
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.glass.widget.CardBuilder
@@ -20,19 +20,20 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONArray
 import org.json.JSONObject
-import java.io.IOException
 import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
-import java.util.concurrent.Executors
 
 //better youtube api
-//https://github.com/nicholaschum/android-youtube-player
+//https://github.com/PierfrancescoSoffritti/android-youtube-player#minsdk
 class MainActivity : Activity() {
 
     private var mCards: List<CardBuilder>? = null
     private var mCardScrollView: CardScrollView? = null
     private var mAdapter: ExampleCardScrollAdapter? = null
+
+    private val ids = java.util.ArrayList<String>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,6 +81,8 @@ class MainActivity : Activity() {
                 .getString("url")
 
             val cover: Drawable? = drawableFromUrl(thumbnail)
+            ids.add(id)
+
             (mCards as ArrayList<CardBuilder>).add(
                 CardBuilder(this, CardBuilder.Layout.CAPTION)
                     .setText(title)
@@ -106,6 +109,21 @@ class MainActivity : Activity() {
             return null
         }
     }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
+
+            var i = mCardScrollView!!.getSelectedItemPosition();
+            Log.d("TAP", "TAPPED $i")
+
+            val intent = Intent(this, VideoActivity::class.java)
+            intent.putExtra("id", ids.get(i))
+            startActivity(intent)
+            return true;
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
 
 
     private inner class ExampleCardScrollAdapter : CardScrollAdapter() {
