@@ -24,23 +24,19 @@ import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
 
-//better youtube api
+//alternative youtube api
 //https://github.com/PierfrancescoSoffritti/android-youtube-player#minsdk
 class MainActivity : Activity() {
-
     private var mCards: List<CardBuilder>? = null
     private var mCardScrollView: CardScrollView? = null
     private var mAdapter: ExampleCardScrollAdapter? = null
-
     private val ids = java.util.ArrayList<String>()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         doAsync {
             createCards()
         }.execute().get()
-
         mCardScrollView = CardScrollView(this)
         mAdapter = ExampleCardScrollAdapter()
         mCardScrollView!!.setAdapter(mAdapter)
@@ -50,10 +46,9 @@ class MainActivity : Activity() {
 
     private fun createCards() {
         //request
-        var q = "rapgod"
+        var q = "rap god"
         val client = OkHttpClient()
-        val  url = URL(YoutubeConfig.getApiUrl()+q)
-        Log.d("URL", url.toString())
+        val  url = URL("${YoutubeConfig.getApiUrl()}$q")
         val request = Request.Builder()
             .url(url)
             .get()
@@ -61,12 +56,9 @@ class MainActivity : Activity() {
         val response = client.newCall(request).execute()
         val responseBody = response.body()!!.string()
         val jsonObj = JSONObject(responseBody)
-        Log.d("URL", jsonObj.toString())
         val items: JSONArray = jsonObj.getJSONArray("items")
-
-
+        //cards
         mCards = ArrayList()
-
         for (i in 0 until items.length()) {
             val title = items.getJSONObject(i)
                 .getJSONObject("snippet")
@@ -79,10 +71,8 @@ class MainActivity : Activity() {
                 .getJSONObject("thumbnails")
                 .getJSONObject("medium")
                 .getString("url")
-
             val cover: Drawable? = drawableFromUrl(thumbnail)
             ids.add(id)
-
             (mCards as ArrayList<CardBuilder>).add(
                 CardBuilder(this, CardBuilder.Layout.CAPTION)
                     .setText(title)
@@ -90,7 +80,6 @@ class MainActivity : Activity() {
                     .setTimestamp("just now")
                     .addImage(cover)
             )
-
         }
     }
 
@@ -112,10 +101,7 @@ class MainActivity : Activity() {
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
-
             var i = mCardScrollView!!.getSelectedItemPosition();
-            Log.d("TAP", "TAPPED $i")
-
             val intent = Intent(this, VideoActivity::class.java)
             intent.putExtra("id", ids.get(i))
             startActivity(intent)
@@ -124,29 +110,22 @@ class MainActivity : Activity() {
         return super.onKeyDown(keyCode, event)
     }
 
-
-
     private inner class ExampleCardScrollAdapter : CardScrollAdapter() {
         override fun getPosition(item: Any): Int {
             return mCards!!.indexOf(item)
         }
-
         override fun getCount(): Int {
             return mCards!!.size
         }
-
         override fun getItem(position: Int): Any {
             return mCards!!.get(position)
         }
-
         override fun getViewTypeCount(): Int {
             return CardBuilder.getViewTypeCount()
         }
-
         override fun getItemViewType(position: Int): Int {
             return mCards!!.get(position).getItemViewType()
         }
-
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             return mCards!!.get(position).getView(convertView, parent)
         }
