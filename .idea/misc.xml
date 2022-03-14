@@ -17,6 +17,9 @@
         <entry key="spotify/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.259" />
         <entry key="weather/src/main/res/layout/live_card.xml" value="1.1" />
         <entry key="weather/src/main/res/menu/live_card.xml" value="0.37407407407407406" />
+        <entry key="youtube_explorer/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.184" />
+        <entry key="youtube_explorer/src/main/res/drawable/ic_launcher_background.xml" value="0.184" />
+        <entry key="youtube_explorer/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.184" />
       </map>
     </option>
   </component>

@@ -1,12 +1,31 @@
 package com.giufu.youtube_explorer
 
 import android.app.Activity
+import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
+import android.os.AsyncTask
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.glass.widget.CardBuilder
 import com.google.android.glass.widget.CardScrollAdapter
 import com.google.android.glass.widget.CardScrollView
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.IOException
+import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.URL
+import java.util.concurrent.Executors
+
 //better youtube api
 //https://github.com/nicholaschum/android-youtube-player
 class MainActivity : Activity() {
@@ -17,7 +36,10 @@ class MainActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        createCards()
+        doAsync {
+            createCards()
+        }.execute().get()
+
         mCardScrollView = CardScrollView(this)
         mAdapter = ExampleCardScrollAdapter()
         mCardScrollView!!.setAdapter(mAdapter)
@@ -26,13 +48,63 @@ class MainActivity : Activity() {
     }
 
     private fun createCards() {
-        mCards = ArrayList()
-        (mCards as ArrayList<CardBuilder>).add(
-            CardBuilder(this, CardBuilder.Layout.TEXT)
-                .setText("This card has a footer.")
-                .setFootnote("I'm the footer!")
-        )
+        //request
+        var q = "rapgod"
+        val client = OkHttpClient()
+        val  url = URL(YoutubeConfig.getApiUrl()+q)
+        Log.d("URL", url.toString())
+        val request = Request.Builder()
+            .url(url)
+            .get()
+            .build()
+        val response = client.newCall(request).execute()
+        val responseBody = response.body()!!.string()
+        val jsonObj = JSONObject(responseBody)
+        Log.d("URL", jsonObj.toString())
+        val items: JSONArray = jsonObj.getJSONArray("items")
 
+
+        mCards = ArrayList()
+
+        for (i in 0 until items.length()) {
+            val title = items.getJSONObject(i)
+                .getJSONObject("snippet")
+                .getString("title")
+            val id = items.getJSONObject(i)
+                .getJSONObject("id")
+                .getString("videoId")
+            val thumbnail = items.getJSONObject(i)
+                .getJSONObject("snippet")
+                .getJSONObject("thumbnails")
+                .getJSONObject("medium")
+                .getString("url")
+
+            val cover: Drawable? = drawableFromUrl(thumbnail)
+            (mCards as ArrayList<CardBuilder>).add(
+                CardBuilder(this, CardBuilder.Layout.CAPTION)
+                    .setText(title)
+                    .setFootnote("I'm the footer!")
+                    .setTimestamp("just now")
+                    .addImage(cover)
+            )
+
+        }
+    }
+
+    fun drawableFromUrl(url: String?): Drawable? {
+        val x: Bitmap
+        val connection: HttpURLConnection = URL(url).openConnection() as HttpURLConnection
+        connection.connect()
+        val input: InputStream = connection.getInputStream()
+        x = BitmapFactory.decodeStream(input)
+        return BitmapDrawable(Resources.getSystem(), x)
+    }
+
+    inner class doAsync(val handler: () -> Unit) : AsyncTask<Void, Void, Void>() {
+        override fun doInBackground(vararg params: Void?): Void? {
+            handler()
+            return null
+        }
     }
 
 
