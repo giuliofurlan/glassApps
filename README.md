@@ -11,3 +11,4 @@ this project aims to get back as many Google Glass functionalities as possible
 
 Please note that I am not an android developer and my time is limited.
 
+![weather](images/weather.png)

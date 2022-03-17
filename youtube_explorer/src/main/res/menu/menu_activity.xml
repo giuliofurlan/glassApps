@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--
+    not sure if I should add it
+    -->
+    <item
+        android:id="@+id/voice_search"
+        android:title="Search with voice" />
+    <item
+        android:id="@+id/scan_qr"
+        android:title="Scan with QR" />
+    <item
+        android:id="@+id/live_card_setting"
+        android:title="Set as live card" />
+
+</menu>

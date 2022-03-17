@@ -27,7 +27,6 @@ public class VideoActivity extends YouTubeBaseActivity  {
     TextView currentTimeView = null;
     private GestureDetector mGestureDetector;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +83,6 @@ public class VideoActivity extends YouTubeBaseActivity  {
         //Create a base listener for generic gestures
         gestureDetector.setBaseListener(gesture -> {
             if (gesture == Gesture.TAP) {
-                Log.d("App", "TAPPED!");
                 if (isPaused){
                     player.play();
                     currentTimeView.setVisibility(View.GONE);
