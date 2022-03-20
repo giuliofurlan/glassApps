@@ -35,9 +35,7 @@ class ResultsAcivity : Activity() {
     private var mAdapter: ExampleCardScrollAdapter? = null
     private val ids = java.util.ArrayList<String>()
     var q = ""
-
     val inputFormat: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,15 +78,12 @@ class ResultsAcivity : Activity() {
                 .getJSONObject("medium")
                 .getString("url")
             val cover: Drawable? = drawableFromUrl(thumbnail)
-
             val channel = items.getJSONObject(i)
                 .getJSONObject("snippet")
                 .getString("channelTitle")
-
             val timestamp = items.getJSONObject(i)
                 .getJSONObject("snippet")
                 .getString("publishTime")
-
             val dateStr = timestamp
             val date: Date = inputFormat.parse(dateStr)
             val niceDateStr: String = DateUtils.getRelativeTimeSpanString(
@@ -96,8 +91,6 @@ class ResultsAcivity : Activity() {
                 Calendar.getInstance().timeInMillis,
                 DateUtils.MINUTE_IN_MILLIS
             ) as String
-
-
             ids.add(id)
             (mCards as ArrayList<CardBuilder>).add(
                 CardBuilder(this, CardBuilder.Layout.CAPTION)
