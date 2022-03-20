@@ -27,7 +27,7 @@ dependencies {
         force = true //API 19 support
     }
     implementation 'com.squareup.okhttp3:logging-interceptor:3.12.12'
-
     implementation files('libs/YouTubeAndroidPlayerApi.jar')
+    implementation 'com.github.yuriy-budiyev:code-scanner:2.1.2'
 
 }

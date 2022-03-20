@@ -31,9 +31,7 @@ class MainActivity : Activity() {
             val intent = Intent(this, ResultsAcivity::class.java)
             intent.putExtra("query", spokenText)
             startActivity(intent)
-            //Log.d("SPEECH", spokenText)
             stopped = true
-            //start activity
         }
         shouldFinishOnMenuClose = true
         finish()
@@ -53,7 +51,8 @@ class MainActivity : Activity() {
                 return true
             }
             R.id.scan_qr -> {
-
+                val intent = Intent(this, QrScannerActivity::class.java)
+                startActivity(intent)
                 return true
             }
             R.id.action_stop -> {
