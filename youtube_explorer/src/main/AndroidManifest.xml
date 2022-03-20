@@ -20,6 +20,7 @@
         <service
             android:name=".MainService"
             android:label="@string/title_activity_main_service">
+            <!-- add icon inside service -->
             <intent-filter>
                 <action android:name="com.google.android.glass.action.VOICE_TRIGGER" />
             </intent-filter>
