@@ -21,6 +21,7 @@
         <entry key="youtube_explorer/src/main/res/drawable/ic_launcher_background.xml" value="0.184" />
         <entry key="youtube_explorer/src/main/res/layout/main_activity.xml" value="0.33958333333333335" />
         <entry key="youtube_explorer/src/main/res/layout/video_activity.xml" value="0.33958333333333335" />
+        <entry key="youtube_explorer/src/main/res/menu/menu_activity.xml" value="0.34375" />
         <entry key="youtube_explorer/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.184" />
       </map>
     </option>
