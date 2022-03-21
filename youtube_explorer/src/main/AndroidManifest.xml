@@ -16,10 +16,12 @@
     <application
         android:allowBackup="true"
         android:label="@string/app_name"
+        android:icon="@drawable/ic_video_50"
         android:supportsRtl="true">
         <service
             android:name=".MainService"
-            android:label="@string/title_activity_main_service">
+            android:label="@string/title_activity_main_service"
+            android:icon="@drawable/ic_video_50">
             <!-- add icon inside service -->
             <intent-filter>
                 <action android:name="com.google.android.glass.action.VOICE_TRIGGER" />
