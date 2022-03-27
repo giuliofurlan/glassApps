@@ -2,4 +2,6 @@
     <string name="app_name">spotify</string>
     <string name="title_activity_live_card_service">Spotify LiveCard</string>
 
+    <string name="oauth">BQCnQFSvEfdDzZQ9n_ycql_oGu8ZDoV_oU6Xf_yYzbw0AimTqwsFXhFFyQ2Udey2uT0p4WVTG8SArIw9xbaLDl0Zt_PmnFOPQgmt5IX4iCKC1KWdtnzhBZaXSKcrQrWlF_3dUcjr0HQISMPEA6h12tY</string>
+
 </resources>

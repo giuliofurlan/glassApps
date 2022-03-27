@@ -6,13 +6,13 @@ import android.os.Build
 import android.os.StrictMode
 import android.view.Menu
 import android.view.MenuItem
+import com.giufu.spotify.LiveCardService.Companion.CURRENT_SONG
+import com.giufu.spotify.LiveCardService.Companion.REFRESH_SONG
 
 //https://developer.spotify.com/console/post-next/
 
 class MainActivity : Activity() {
-    private var oauth ="your key here"
     var isPaused: Boolean = true
-    private lateinit var spotifyApi: SpotifyAPI
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -25,29 +25,28 @@ class MainActivity : Activity() {
                 .permitAll().build()
             StrictMode.setThreadPolicy(policy)
         }
-        spotifyApi = SpotifyAPI(oauth)
+        //spotifyApi = SpotifyAPI(oauth)
+        refreshSong()
         menuInflater.inflate(R.menu.live_card, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        intent.action = REFRESH_SONG
+        intent.putExtra(REFRESH_SONG, "arrivato????")
+        sendBroadcast(intent)
+
         when (item.itemId) {
             R.id.play_pause -> {
-                spotifyApi.pausePlayBack()
-                !isPaused
-                if (isPaused){
-                }
-                else{
-
-                }
+                //spotifyApi.pausePlayBack()
                 return true
             }
             R.id.next_track -> {
-                spotifyApi.skipToNext()
+                //spotifyApi.skipToNext()
                 return true
             }
             R.id.previous_track -> {
-                spotifyApi.skipToPrevious()
+                //spotifyApi.skipToPrevious()
                 return true
             }
             R.id.stop -> {
@@ -56,6 +55,18 @@ class MainActivity : Activity() {
             }
             else -> return super.onOptionsItemSelected(item)
         }
+    }
+
+    fun refreshSong() {
+
+        //CURRENT_SONG = spotifyApi.getCurrentlyPlayingTrack()
+        /*
+        Intent().also { intent ->
+            intent.action = REFRESH_SONG
+            intent.putExtra(REFRESH_SONG, spotifyApi.getCurrentlyPlayingTrack().toString())
+            sendBroadcast(intent)
+        }
+        */
     }
 
     override fun onOptionsMenuClosed(menu: Menu) {

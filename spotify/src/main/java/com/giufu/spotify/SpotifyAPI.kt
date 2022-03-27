@@ -8,7 +8,6 @@ class SpotifyAPI(OAuthToken: String) {
     private var client: OkHttpClient = OkHttpClient()
     private var formBody: RequestBody = FormBody.Builder().build()
 
-
     private fun simpleGetRequest(url: String): String {
         val request = Request.Builder()
             .get()
