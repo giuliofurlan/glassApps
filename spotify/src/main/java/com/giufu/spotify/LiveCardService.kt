@@ -30,7 +30,7 @@ class LiveCardService: Service()  {
     private lateinit var broadcastReceiver: BroadcastReceiver
     private var currentSongThread: Thread? = null
     var count: Int = 0;
-    var spotifyApi: SpotifyAPI = SpotifyAPI("")
+    var spotifyApi: SpotifyAPI = SpotifyAPI("BQARU9FgQuJCkaCkS7Y8iuBUavFKp5lqQSsjBt5TWNkF4ZCMddNyMxFqaJXVpZQgLVeUN8vLD0ZkTTVIhVruD398ERlVp0tpaOw8XvZ7VytCmR7xnjvd5ZE_IJR6Uivjf5AwpvGaOjZFi1HiYlsfS-E")
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (liveCard == null) {
@@ -100,42 +100,6 @@ class LiveCardService: Service()  {
             BitmapFactory.decodeStream(url.openConnection().getInputStream())
         return image
     }
-
-    fun drawableFromUrl(url: String?): Drawable? {
-        val x: Bitmap
-        val connection: HttpURLConnection = URL(url).openConnection() as HttpURLConnection
-        connection.connect()
-        val input: InputStream = connection.getInputStream()
-        x = BitmapFactory.decodeStream(input)
-        return BitmapDrawable(Resources.getSystem(), x)
-    }
-
-    fun drawableToBitmap(drawable: Drawable): Bitmap? {
-        var bitmap: Bitmap? = null
-        if (drawable is BitmapDrawable) {
-            if (drawable.bitmap != null) {
-                return drawable.bitmap
-            }
-        }
-        bitmap = if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
-            Bitmap.createBitmap(
-                1,
-                1,
-                Bitmap.Config.ARGB_8888
-            )
-        } else {
-            Bitmap.createBitmap(
-                drawable.intrinsicWidth,
-                drawable.intrinsicHeight,
-                Bitmap.Config.ARGB_8888
-            )
-        }
-        val canvas = Canvas(bitmap)
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight())
-        drawable.draw(canvas)
-        return bitmap
-    }
-
 
     override fun onBind(p0: Intent?): IBinder? {
         return null

@@ -29,7 +29,7 @@ import java.util.*
 
 //alternative youtube api
 //https://github.com/PierfrancescoSoffritti/android-youtube-player#minsdk
-class ResultsAcivity : Activity() {
+class ResultsActivity : Activity() {
     private var mCards: List<CardBuilder>? = null
     private var mCardScrollView: CardScrollView? = null
     private var mAdapter: ExampleCardScrollAdapter? = null

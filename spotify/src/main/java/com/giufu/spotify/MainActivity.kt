@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.StrictMode
+import android.speech.RecognizerIntent
 import android.view.Menu
 import android.view.MenuItem
 import com.giufu.spotify.LiveCardService.Companion.CURRENT_SONG
@@ -13,6 +14,9 @@ import com.giufu.spotify.LiveCardService.Companion.REFRESH_SONG
 
 class MainActivity : Activity() {
     var isPaused: Boolean = true
+    private val SPEECH_REQUEST = 0
+    private var stopped: Boolean = false
+    private var shouldFinishOnMenuClose = true
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -31,6 +35,28 @@ class MainActivity : Activity() {
         return true
     }
 
+    private fun displaySpeechRecognizer() {
+        shouldFinishOnMenuClose = false;
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        startActivityForResult(intent, SPEECH_REQUEST)
+    }
+
+    override fun onActivityResult(
+        requestCode: Int, resultCode: Int,
+        data: Intent) {
+        if (requestCode == SPEECH_REQUEST && resultCode == RESULT_OK) {
+            val results: List<String> = data.getStringArrayListExtra(
+                RecognizerIntent.EXTRA_RESULTS)
+            val spokenText = results[0]
+            val intent = Intent(this, ResultsActivity::class.java)
+            intent.putExtra("query", spokenText)
+            startActivity(intent)
+            stopped = true
+        }
+        shouldFinishOnMenuClose = true
+        finish()
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         intent.action = REFRESH_SONG
         intent.putExtra(REFRESH_SONG, "arrivato????")
@@ -47,6 +73,11 @@ class MainActivity : Activity() {
             }
             R.id.previous_track -> {
                 //spotifyApi.skipToPrevious()
+                return true
+            }
+            R.id.search -> {
+                stopped = true
+                displaySpeechRecognizer()
                 return true
             }
             R.id.stop -> {
@@ -71,6 +102,8 @@ class MainActivity : Activity() {
 
     override fun onOptionsMenuClosed(menu: Menu) {
         super.onOptionsMenuClosed(menu)
-        finish()
+        if (shouldFinishOnMenuClose) {
+            finish();
+        }
     }
 }

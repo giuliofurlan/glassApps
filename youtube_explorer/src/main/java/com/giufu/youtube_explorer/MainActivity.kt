@@ -28,7 +28,7 @@ class MainActivity : Activity() {
             val results: List<String> = data.getStringArrayListExtra(
                 RecognizerIntent.EXTRA_RESULTS)
             val spokenText = results[0]
-            val intent = Intent(this, ResultsAcivity::class.java)
+            val intent = Intent(this, ResultsActivity::class.java)
             intent.putExtra("query", spokenText)
             startActivity(intent)
             stopped = true

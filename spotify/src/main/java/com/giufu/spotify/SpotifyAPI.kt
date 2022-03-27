@@ -8,17 +8,19 @@ class SpotifyAPI(OAuthToken: String) {
     private var client: OkHttpClient = OkHttpClient()
     private var formBody: RequestBody = FormBody.Builder().build()
 
-    private fun simpleGetRequest(url: String): String {
+    fun simpleGetRequest(url: String): JSONObject {
         val request = Request.Builder()
-            .get()
-            .headers(mAuthHeader)
-            .url(url)
-            .build()
+        .get()
+        .headers(mAuthHeader)
+        .url(url)
+        .build()
         val response = client.newCall(request).execute()
-        return response.body()!!.string()
+        val responseBody = response.body()!!.string()
+        val jsonObj = JSONObject(responseBody)
+        return  jsonObj
     }
 
-    private fun simplePostRequest(url: String): String {
+    fun simplePostRequest(url: String): String {
         val request = Request.Builder()
             .post(formBody)
             .headers(mAuthHeader)
@@ -28,7 +30,7 @@ class SpotifyAPI(OAuthToken: String) {
         return response.body()!!.string()
     }
 
-    private fun simplePutRequest(url: String): String {
+    fun simplePutRequest(url: String): String {
         val client = OkHttpClient()
         val request = Request.Builder()
             .put(formBody)
@@ -39,10 +41,15 @@ class SpotifyAPI(OAuthToken: String) {
         return response.body()!!.string()
     }
 
+    fun searchForItems(q: String, limit: Int, type: String): JSONObject{
+        val url = "https://api.spotify.com/v1/search?q=$q&type=$type&limit=$limit"
+        return simpleGetRequest(url)
+    }
+
 
     fun getCurrentlyPlayingTrack(): JSONObject {
         val url = "https://api.spotify.com/v1/me/player/currently-playing"
-        return JSONObject(simpleGetRequest(url))
+        return simpleGetRequest(url)
     }
 
     fun pausePlayBack(){

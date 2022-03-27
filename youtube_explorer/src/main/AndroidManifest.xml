@@ -39,7 +39,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".VideoActivity"/>
-        <activity android:name=".ResultsAcivity"/>
+        <activity android:name=".ResultsActivity"/>
         <activity android:name=".QrScannerActivity"/>
     </application>
 
