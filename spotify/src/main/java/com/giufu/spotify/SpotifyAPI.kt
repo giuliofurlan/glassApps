@@ -4,6 +4,10 @@ import okhttp3.*
 import org.json.JSONObject
 
 class SpotifyAPI(OAuthToken: String) {
+    companion object{
+        val oauth = "BQAXwGdr-RNDuXVcZeU2eemseooF5AfP9GBeLx1xcxSFj6WPGq9O_Dib9AFAPjJuGUTydLDtfjiaiP8xkzhpRL4dAkGG8Q9MN3ASymHHvkzQGJUCoHnDURHkNEvgcNmZgpVja51Mf1dvGtizi9CAwL7nUQ"
+    }
+
     private var mAuthHeader: Headers = Headers.of("Authorization", "Bearer $OAuthToken")
     private var client: OkHttpClient = OkHttpClient()
     private var formBody: RequestBody = FormBody.Builder().build()
@@ -46,6 +50,10 @@ class SpotifyAPI(OAuthToken: String) {
         return simpleGetRequest(url)
     }
 
+    fun addToQueue(id: String){
+        val url = "https://api.spotify.com/v1/me/player/queue?uri=spotify%3Atrack%3A$id"
+        simplePostRequest(url)
+    }
 
     fun getCurrentlyPlayingTrack(): JSONObject {
         val url = "https://api.spotify.com/v1/me/player/currently-playing"
@@ -71,5 +79,10 @@ class SpotifyAPI(OAuthToken: String) {
     fun skipToPrevious(){
         val url = "https://api.spotify.com/v1/me/player/previous"
         simplePostRequest(url)
+    }
+
+    fun setVolume(volume: Int){
+        val url = "https://api.spotify.com/v1/me/player/volume?volume_percent=$volume"
+        simplePutRequest(url)
     }
 }

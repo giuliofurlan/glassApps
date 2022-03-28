@@ -130,6 +130,7 @@ class LiveCardService : Service() {
         return "--"
     }
 
+    //TODO fix timezones, sunset and card refresh
     private fun populate(t:String, t_min:String, t_max:String, weatherDescription:String,
                          address:String, timezone:Int, sunrise:Int, sunset:Int, pop:String){
         Log.d("IMPORTANT",weatherDescription)
@@ -141,8 +142,12 @@ class LiveCardService : Service() {
         //https://gist.github.com/h0wardch3ng/03047ea601e47e1476176833fd95efa0
         var id: Int = R.drawable.ic_glass_logo
         val calendar: Calendar = Calendar.getInstance()
-        val now: Int = (calendar.timeInMillis /1000).toInt()+timezone
+        val now: Int = (calendar.timeInMillis /1000).toInt()//+timezone seems to be better this way
+        Log.d("DAY now    ", now.toString()+"000")
+        Log.d("DAY sunrise", sunrise.toString()+"000")
+        Log.d("DAY sunset ", sunset.toString()+"000")
         val day = now in (sunrise + 1) until sunset
+
         when (weatherDescription.lowercase()) {
             "few clouds" -> id = if (day) R.drawable.few_clouds_day else R.drawable.few_clouds_night
             "scattered clouds"-> id=R.drawable.scattered_clouds

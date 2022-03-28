@@ -7,16 +7,14 @@ import android.os.StrictMode
 import android.speech.RecognizerIntent
 import android.view.Menu
 import android.view.MenuItem
-import com.giufu.spotify.LiveCardService.Companion.CURRENT_SONG
-import com.giufu.spotify.LiveCardService.Companion.REFRESH_SONG
 
-//https://developer.spotify.com/console/post-next/
 
 class MainActivity : Activity() {
     var isPaused: Boolean = true
     private val SPEECH_REQUEST = 0
     private var stopped: Boolean = false
     private var shouldFinishOnMenuClose = true
+    private lateinit var spotifyAPI: SpotifyAPI
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -29,14 +27,14 @@ class MainActivity : Activity() {
                 .permitAll().build()
             StrictMode.setThreadPolicy(policy)
         }
-        //spotifyApi = SpotifyAPI(oauth)
         refreshSong()
+        spotifyAPI = SpotifyAPI(SpotifyAPI.oauth)
         menuInflater.inflate(R.menu.live_card, menu)
         return true
     }
 
     private fun displaySpeechRecognizer() {
-        shouldFinishOnMenuClose = false;
+        shouldFinishOnMenuClose = false
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
         startActivityForResult(intent, SPEECH_REQUEST)
     }
@@ -58,21 +56,19 @@ class MainActivity : Activity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        intent.action = REFRESH_SONG
-        intent.putExtra(REFRESH_SONG, "arrivato????")
         sendBroadcast(intent)
 
         when (item.itemId) {
             R.id.play_pause -> {
-                //spotifyApi.pausePlayBack()
+                spotifyAPI.pausePlayBack()
                 return true
             }
             R.id.next_track -> {
-                //spotifyApi.skipToNext()
+                spotifyAPI.skipToNext()
                 return true
             }
             R.id.previous_track -> {
-                //spotifyApi.skipToPrevious()
+                spotifyAPI.skipToPrevious()
                 return true
             }
             R.id.search -> {
@@ -88,7 +84,7 @@ class MainActivity : Activity() {
         }
     }
 
-    fun refreshSong() {
+    private fun refreshSong() {
 
         //CURRENT_SONG = spotifyApi.getCurrentlyPlayingTrack()
         /*
@@ -103,7 +99,7 @@ class MainActivity : Activity() {
     override fun onOptionsMenuClosed(menu: Menu) {
         super.onOptionsMenuClosed(menu)
         if (shouldFinishOnMenuClose) {
-            finish();
+            finish()
         }
     }
 }

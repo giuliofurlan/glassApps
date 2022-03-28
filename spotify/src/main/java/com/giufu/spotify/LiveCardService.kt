@@ -1,26 +1,20 @@
 package com.giufu.spotify
 
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.app.Service
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.os.IBinder
 import android.util.Log
 import android.widget.RemoteViews
 import com.google.android.glass.timeline.LiveCard
 import junit.framework.Assert.fail
 import org.json.JSONObject
-import java.io.IOException
-import java.io.InputStream
-import java.net.HttpURLConnection
 import java.net.URL
 
 
@@ -29,9 +23,10 @@ class LiveCardService: Service()  {
     private lateinit var remoteViews: RemoteViews
     private lateinit var broadcastReceiver: BroadcastReceiver
     private var currentSongThread: Thread? = null
-    var count: Int = 0;
-    var spotifyApi: SpotifyAPI = SpotifyAPI("BQARU9FgQuJCkaCkS7Y8iuBUavFKp5lqQSsjBt5TWNkF4ZCMddNyMxFqaJXVpZQgLVeUN8vLD0ZkTTVIhVruD398ERlVp0tpaOw8XvZ7VytCmR7xnjvd5ZE_IJR6Uivjf5AwpvGaOjZFi1HiYlsfS-E")
+    private var count: Int = 0
+    private var spotifyApi: SpotifyAPI = SpotifyAPI(SpotifyAPI.oauth)
 
+    @SuppressLint("UnspecifiedImmutableFlag")
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (liveCard == null) {
             liveCard = LiveCard(this, LIVE_CARD_TAG)
@@ -71,12 +66,11 @@ class LiveCardService: Service()  {
                         .getJSONObject(0)//0:600px 1:300px 2:64px
                         .getString("url") ?: fail("")) as String?
 
-                    val duration = (item
-                        .getString("duration_ms") ?: fail("Error")) as String?
+                    //val duration = (item.getString("duration_ms") ?: fail("Error")) as String?
 
                     remoteViews.setTextViewText(R.id.textView, "$songName")
                     remoteViews.setTextViewText(R.id.footer, "$artistName")
-                    remoteViews.setImageViewBitmap(R.id.imageView, BitmapFromurl(imageUrl!!))
+                    remoteViews.setImageViewBitmap(R.id.imageView, bitmapFromUrl(imageUrl!!))
 
                 }
                 val progress: String? = (CURRENT_SONG
@@ -94,11 +88,9 @@ class LiveCardService: Service()  {
         currentSongThread?.start()
     }
 
-    fun BitmapFromurl(imageUrl: String): Bitmap? {
+    private fun bitmapFromUrl(imageUrl: String): Bitmap? {
         val url = URL(imageUrl)
-        val image =
-            BitmapFactory.decodeStream(url.openConnection().getInputStream())
-        return image
+        return BitmapFactory.decodeStream(url.openConnection().getInputStream())
     }
 
     override fun onBind(p0: Intent?): IBinder? {
@@ -116,7 +108,7 @@ class LiveCardService: Service()  {
     class MyBroadcastReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             //(context as LiveCardService)
-            Log.d("broadcast", "ricevuto ${intent.toString()}")
+            Log.d(LIVE_CARD_TAG, "received: ${intent.toString()}")
         }
     }
 
