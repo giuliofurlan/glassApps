@@ -1,6 +1,5 @@
 package com.giufu.weather
 
-import com.giufu.weather.weatherConditions
 import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.app.Service
@@ -28,6 +27,8 @@ class LiveCardService : Service() {
     private val apiKey: String = "06c921750b9a82d8f5d1294e1586276f"
     private lateinit var settings:SharedPreferences
     private lateinit var editor:SharedPreferences.Editor
+
+
 
     override fun onBind(intent: Intent): IBinder? {
         return null
@@ -103,7 +104,7 @@ class LiveCardService : Service() {
         val timezone = jsonObj.getString("timezone").toInt()
         val sunrise = sys.getString("sunrise").toInt()
         val sunset = sys.getString("sunset").toInt()
-        populate(temp, tempMin, tempMax, weatherDescription, address, timezone, sunset, sunrise, getRainProbability())
+        populate(temp, tempMin, tempMax, weatherDescription, address, timezone, sunrise, sunset, getRainProbability())
     }
 
     private fun getRainProbability(): String {
@@ -115,6 +116,7 @@ class LiveCardService : Service() {
             .build()
         val response = client.newCall(request).execute()
         val responseBody = response.body()!!.string()
+        Log.d("RESPONSE", responseBody)
         val jsonObj = JSONObject(responseBody)
         val daily = jsonObj.getJSONArray("daily")
         val hourly = jsonObj.getJSONArray("hourly")
@@ -133,21 +135,19 @@ class LiveCardService : Service() {
     //TODO fix timezones, sunset and card refresh
     private fun populate(t:String, t_min:String, t_max:String, weatherDescription:String,
                          address:String, timezone:Int, sunrise:Int, sunset:Int, pop:String){
-        Log.d("IMPORTANT",weatherDescription)
         remoteViews.setTextViewText(R.id.tvTempo, "$t°")
         remoteViews.setTextViewText(R.id.t_min, "$t_min°")
         remoteViews.setTextViewText(R.id.t_max, "$t_max°")
         remoteViews.setTextViewText(R.id.location, address)
         remoteViews.setTextViewText(R.id.rain_percent, "$pop%")
-        //https://gist.github.com/h0wardch3ng/03047ea601e47e1476176833fd95efa0
         var id: Int = R.drawable.ic_glass_logo
         val calendar: Calendar = Calendar.getInstance()
         val now: Int = (calendar.timeInMillis /1000).toInt()//+timezone seems to be better this way
-        Log.d("DAY now    ", now.toString()+"000")
-        Log.d("DAY sunrise", sunrise.toString()+"000")
-        Log.d("DAY sunset ", sunset.toString()+"000")
+        Log.d("DAY timezone-> ", timezone.toString())
+        Log.d("DAY now------> ", now.toString()+"000")
+        Log.d("DAY sunrise--> ", sunrise.toString()+"000")
+        Log.d("DAY sunset---> ", sunset.toString()+"000")
         val day = now in (sunrise + 1) until sunset
-
         when (weatherDescription.lowercase()) {
             "few clouds" -> id = if (day) R.drawable.few_clouds_day else R.drawable.few_clouds_night
             "scattered clouds"-> id=R.drawable.scattered_clouds
@@ -161,7 +161,6 @@ class LiveCardService : Service() {
             in weatherConditions.Snow -> id=R.drawable.snow
             in weatherConditions.Atmosphere -> id=R.drawable.mist
         }
-
         val bm:Bitmap = BitmapFactory.decodeResource(resources, id)
         remoteViews.setImageViewBitmap(R.id.imageView, bm)
         liveCard?.setViews(remoteViews)
@@ -194,6 +193,7 @@ class LiveCardService : Service() {
         override fun onReceive(context: Context?, intent: Intent?) {
             (context as LiveCardService).startStopMetronome()
             (context).saveCoordinates()
+            (context).startStopMetronome()
         }
     }
 

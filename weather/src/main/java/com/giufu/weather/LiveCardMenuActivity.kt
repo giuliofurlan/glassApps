@@ -7,7 +7,6 @@ import android.content.Intent
 import android.location.*
 import android.os.Bundle
 import android.speech.RecognizerIntent
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.giufu.weather.LiveCardService.Companion.COORDINATES
@@ -17,12 +16,10 @@ import com.giufu.weather.LiveCardService.Companion.UNITS_CHANGE_ACTION
 import com.giufu.weather.LiveCardService.Companion.coordinates
 import com.giufu.weather.LiveCardService.Companion.units
 
-//TODO
-//non capisco il perchè la localizzazione funziona solo dopo qualche minuto ne da dove viene
-
 class LiveCardMenuActivity : Activity(), LocationListener {
     private var stopped: Boolean = false
     private var shouldFinishOnMenuClose = true
+
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -50,7 +47,6 @@ class LiveCardMenuActivity : Activity(), LocationListener {
             val results: List<String> = data.getStringArrayListExtra(
                 RecognizerIntent.EXTRA_RESULTS)
             val spokenText = results[0]
-            Log.d("SPEECH", spokenText)
             coordinates = getLocationFromAddress(spokenText)
             stopped = true
             Intent().also { intent ->
@@ -129,7 +125,7 @@ class LiveCardMenuActivity : Activity(), LocationListener {
     private fun refreshLocation() {
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val criteria = Criteria()
-        criteria.accuracy = Criteria.ACCURACY_FINE
+        criteria.accuracy = Criteria.NO_REQUIREMENT
         criteria.isAltitudeRequired = true;
         val providers = locationManager.getProviders(criteria, true)
         for (provider in providers) {
@@ -149,6 +145,7 @@ class LiveCardMenuActivity : Activity(), LocationListener {
             }
         }
     }
+
     override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {
         TODO("Not yet implemented")
     }
