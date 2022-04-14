@@ -8,7 +8,6 @@ this project aims to get back as many Google Glass functionalities as possible
 | weather | yes | no | done (minor bugs to fix) | weather app as live card, uses current location or a custom one |
 | maps | yes | yes | initial development | navigation |
 | spotify | yes | no | active development | controls (play/pause, next, ...) and maybe player |
-| mail | ? | ? | idea? | mail client? |
 
 Please note that I am not an android developer and my time is limited.
 
