@@ -1,9 +1,10 @@
 package com.giufu.youtube_explorer
 
 import android.app.Activity
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.provider.Settings
 import android.widget.Toast
 import com.budiyev.android.codescanner.*
 import java.util.regex.Matcher
@@ -11,7 +12,17 @@ import java.util.regex.Pattern
 
 class QrScannerActivity: Activity() {
     private lateinit var codeScanner: CodeScanner
+    private val mOnClickListener: DialogInterface.OnClickListener = object :
+        DialogInterface.OnClickListener {
+        override fun onClick(p0: DialogInterface?, p1: Int) {
 
+        }
+    }
+
+    fun restartActivity(){
+        val intent = Intent(this, QrScannerActivity::class.java)
+        startActivity(intent)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.qr_scanner_activity)
@@ -31,8 +42,6 @@ class QrScannerActivity: Activity() {
         // Callbacks
         codeScanner.decodeCallback = DecodeCallback {
             runOnUiThread {
-                Toast.makeText(this, "Scan result: ${it.text}", Toast.LENGTH_LONG).show()
-                Log.d("QR",it.text)
                 //works but very slow and unreliable
                 if (isYoutubeUrl(it.text)){
                     val id = getVideoIdFromYoutubeUrl(it.text)
@@ -40,6 +49,12 @@ class QrScannerActivity: Activity() {
                     intent.putExtra("id", id)
                     startActivity(intent)
                 }
+                else {
+                    AlertDialog(
+                        this, R.drawable.ic_stop, R.string.alert_text,
+                        R.string.alert_footnote_text,mOnClickListener).show()
+                }
+
             }
         }
         codeScanner.errorCallback = ErrorCallback { // or ErrorCallback.SUPPRESS
@@ -48,7 +63,6 @@ class QrScannerActivity: Activity() {
                     Toast.LENGTH_LONG).show()
             }
         }
-
         scannerView.setOnClickListener {
             codeScanner.startPreview()
         }

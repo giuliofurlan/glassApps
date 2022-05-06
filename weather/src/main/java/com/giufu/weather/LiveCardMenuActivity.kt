@@ -19,7 +19,7 @@ import com.giufu.weather.LiveCardService.Companion.units
 class LiveCardMenuActivity : Activity(), LocationListener {
     private var stopped: Boolean = false
     private var shouldFinishOnMenuClose = true
-
+    private val SPEECH_REQUEST = 0
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -28,11 +28,8 @@ class LiveCardMenuActivity : Activity(), LocationListener {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.live_card, menu)
-
         return true
     }
-
-    private val SPEECH_REQUEST = 0
 
     private fun displaySpeechRecognizer() {
         shouldFinishOnMenuClose = false;

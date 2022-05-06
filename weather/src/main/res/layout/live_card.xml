@@ -3,9 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-
+    android:layout_height="match_parent">
     <RelativeLayout
         android:id="@+id/left_column"
         android:layout_width="@dimen/glass_card_left_column_width"
@@ -13,31 +11,16 @@
         android:orientation="vertical"
         android:paddingTop="40px"
         android:paddingBottom="40px">
-
         <LinearLayout
             android:id="@+id/max_min"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:orientation="horizontal">
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="45px"
-                    android:layout_height="45px"
-                    android:layout_centerVertical="true"
-                    tools:src="@tools:sample/avatars" />
-            </RelativeLayout>
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
                 <TextView
                     android:id="@+id/t_max"
                     android:layout_width="wrap_content"
@@ -45,7 +28,6 @@
                     android:layout_above="@id/t_min"
                     android:text="--°"
                     android:textSize="35px" />
-
                 <TextView
                     android:id="@+id/t_min"
                     android:layout_width="match_parent"
@@ -55,32 +37,21 @@
                     android:textColor="@android:color/darker_gray"
                     android:textSize="35px" />
             </LinearLayout>
-
         </LinearLayout>
-
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:textAlignment="center">
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="45px"
-                android:layout_height="45px"
-                android:layout_alignParentBottom="true"
-                tools:src="@drawable/rainpercent" />
-
             <TextView
-                android:id="@+id/rain_percent"
-                android:layout_width="wrap_content"
+                android:id="@+id/description"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:text="--%"
-                android:textSize="35px" />
+                android:textSize="25px" />
         </LinearLayout>
     </RelativeLayout>
     <RelativeLayout
@@ -93,16 +64,14 @@
         android:layout_marginRight="@dimen/glass_card_margin"
         android:layout_marginBottom="@dimen/glass_card_margin"
         android:layout_toRightOf="@+id/left_column"
-        tools:ignore="UselessLeaf"
-        >
+        tools:ignore="UselessLeaf">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="vertical"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            >
+            android:layout_centerHorizontal="true">
             <TextView
                 android:id="@+id/location"
                 android:layout_width="match_parent"
@@ -111,8 +80,7 @@
                 android:layout_centerHorizontal="true"
                 android:text="--"
                 android:layout_above="@id/tvTempo"
-                android:textAlignment="center"
-                />
+                android:textAlignment="center" />
             <TextView
                 android:id="@+id/tvTempo"
                 android:layout_width="match_parent"

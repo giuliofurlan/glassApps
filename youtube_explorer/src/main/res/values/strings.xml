@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Youtube</string>
     <string name="title_activity_main_service">Main Service</string>
-
+    <string name="alert_text">Invalid URL</string>
+    <string name="alert_footnote_text">Tap to try again</string>
 </resources>
