@@ -11,11 +11,13 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/browser" />
             <option value="$PROJECT_DIR$/common" />
+            <option value="$PROJECT_DIR$/glass-progress-bar-master" />
             <option value="$PROJECT_DIR$/maps" />
             <option value="$PROJECT_DIR$/spotify" />
             <option value="$PROJECT_DIR$/weather" />
-            <option value="$PROJECT_DIR$/youtube" />
+            <option value="$PROJECT_DIR$/youtube_enterprise" />
             <option value="$PROJECT_DIR$/youtube_explorer" />
           </set>
         </option>

@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/open_action"
+        android:icon="@drawable/ic_world_50"
+        android:title="@string/open_action" >
+    </item>
+    <item
+        android:id="@+id/action_stop"
+        android:icon="@drawable/ic_stop"
+        android:title="@string/action_stop" />
+</menu>

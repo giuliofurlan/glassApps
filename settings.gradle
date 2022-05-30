@@ -17,7 +17,9 @@ dependencyResolutionManagement {
 rootProject.name = "glassApps"
 include ':spotify'
 include ':weather'
-include ':youtube'
 include ':maps'
 include ':common'
 include ':youtube_explorer'
+include ':youtube_enterprise'
+include ':browser'
+include ':glass-progress-bar-master'

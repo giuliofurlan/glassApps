@@ -1,6 +1,0 @@
-<resources>
-    <string name="app_name">Youtube</string>
-    <string name="voice_trigger">Youtube</string>
-    <string name="lorem">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commo</string>
-    <string name="loading">loading...</string>
-</resources>

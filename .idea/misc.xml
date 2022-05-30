@@ -3,8 +3,24 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.3026041666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.26443768996960487" />
         <entry key="app/src/main/res/menu/live_card.xml" value="1.625" />
+        <entry key="browser/src/main/res/drawable-hdpi/slider_indeterminate.xml" value="0.138" />
+        <entry key="browser/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.177" />
+        <entry key="browser/src/main/res/drawable/ic_launcher_background.xml" value="0.177" />
+        <entry key="browser/src/main/res/layout/activity_capture.xml" value="0.1" />
+        <entry key="browser/src/main/res/layout/activity_main.xml" value="0.56625" />
+        <entry key="browser/src/main/res/layout/app_picker_list_item.xml" value="0.2693208430913349" />
+        <entry key="browser/src/main/res/layout/browser_activity.xml" value="0.5" />
+        <entry key="browser/src/main/res/layout/live_card.xml" value="0.6845238095238095" />
+        <entry key="browser/src/main/res/layout/message_dialog.xml" value="0.1884920634920635" />
+        <entry key="browser/src/main/res/layout/message_dialog_expanded.xml" value="0.1884920634920635" />
+        <entry key="browser/src/main/res/menu/capture.xml" value="0.1" />
+        <entry key="browser/src/main/res/menu/live_card.xml" value="0.77125" />
+        <entry key="browser/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2055" />
+        <entry key="browser/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2055" />
+        <entry key="browser/src/main/res/xml/preferences.xml" value="0.1" />
         <entry key="opencv/src/main/res/layout/activity_main.xml" value="0.2570921985815603" />
         <entry key="phoneapp/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.195" />
         <entry key="phoneapp/src/main/res/drawable/ic_launcher_background.xml" value="0.359" />
@@ -17,6 +33,14 @@
         <entry key="spotify/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.259" />
         <entry key="weather/src/main/res/layout/live_card.xml" value="0.1" />
         <entry key="weather/src/main/res/menu/live_card.xml" value="0.37407407407407406" />
+        <entry key="youtube_enterprise/src/main/res/drawable/ic_add.xml" value="0.15" />
+        <entry key="youtube_enterprise/src/main/res/drawable/indicator_selected_dot.xml" value="0.252" />
+        <entry key="youtube_enterprise/src/main/res/drawable/page_indicator_selector.xml" value="0.252" />
+        <entry key="youtube_enterprise/src/main/res/layout/left_column_layout.xml" value="0.5406746031746031" />
+        <entry key="youtube_enterprise/src/main/res/layout/main_layout.xml" value="0.7609126984126984" />
+        <entry key="youtube_enterprise/src/main/res/layout/menu_item.xml" value="0.6775" />
+        <entry key="youtube_enterprise/src/main/res/layout/view_pager_layout.xml" value="0.375" />
+        <entry key="youtube_enterprise/src/main/res/menu/main_menu.xml" value="0.9025" />
         <entry key="youtube_explorer/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.184" />
         <entry key="youtube_explorer/src/main/res/drawable/ic_launcher_background.xml" value="0.184" />
         <entry key="youtube_explorer/src/main/res/layout/main_activity.xml" value="0.33958333333333335" />
