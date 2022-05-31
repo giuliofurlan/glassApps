@@ -15,8 +15,8 @@
     <uses-permission android:name='android.permission.ACCESS_WIFI_STATE'/>
     <uses-permission android:name='android.permission.ACCESS_NETWORK_STATE'/>
 
-
-
+    <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true"/>
+    <uses-feature android:name="android.hardware.sensor.gyroscope" android:required="true"/>
 
     <application
         android:allowBackup="true"
@@ -33,16 +33,10 @@
             android:stateNotNeeded="true"
             android:theme="@style/CaptureTheme"
             android:windowSoftInputMode="stateAlwaysHidden" >
-        </activity>
-        <activity android:name=".BrowserActivity"
-            android:exported="true"
-            android:theme="@style/AppTheme">
-        </activity>
-
-        <service
-            android:name="com.giufu.browser.LiveCardService"
-            android:icon="@drawable/ic_computer_50"
-            android:label="@string/title_activity_live_card_service">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
             <intent-filter>
                 <action android:name="com.google.android.glass.action.VOICE_TRIGGER" />
             </intent-filter>
@@ -50,16 +44,21 @@
             <meta-data
                 android:name="com.google.android.glass.VoiceTrigger"
                 android:resource="@xml/voice_trigger" />
-        </service>
+        </activity>
+        <activity android:name=".BrowserActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme">
+        </activity>
+        <service
+            android:name="com.giufu.browser.LiveCardService"
+            android:icon="@drawable/ic_computer_50"
+            android:label="@string/title_activity_live_card_service">
 
+        </service>
         <activity
             android:name="com.giufu.browser.LiveCardMenuActivity"
             android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
-        -->
     </application>
 </manifest>

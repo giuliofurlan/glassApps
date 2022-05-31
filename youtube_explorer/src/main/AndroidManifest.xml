@@ -38,9 +38,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".VideoActivity"/>
+        <activity android:name=".VideoActivity"
+            android:exported="true"/>
         <activity android:name=".ResultsActivity"/>
         <activity android:name=".QrScannerActivity"/>
+        <activity android:name=".scan.CaptureActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>

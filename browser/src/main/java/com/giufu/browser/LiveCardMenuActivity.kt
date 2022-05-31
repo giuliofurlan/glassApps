@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.location.*
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.speech.RecognizerIntent
 import android.view.Menu
 import android.view.MenuItem
@@ -49,6 +50,8 @@ class LiveCardMenuActivity : Activity(){
         return when (item.itemId) {
             R.id.open_action -> {
                 val intent = Intent(this, BrowserActivity::class.java)
+                var settings = PreferenceManager.getDefaultSharedPreferences(this)
+                intent.putExtra("url", settings.getString("lastUrl",null))
                 startActivity(intent)
                 true
             }

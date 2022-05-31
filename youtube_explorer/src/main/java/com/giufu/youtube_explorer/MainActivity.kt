@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.speech.RecognizerIntent
 import android.view.*
+import com.giufu.youtube_explorer.scan.CaptureActivity
 
 class MainActivity : Activity() {
     private val SPEECH_REQUEST = 0
@@ -51,7 +52,7 @@ class MainActivity : Activity() {
                 return true
             }
             R.id.scan_qr -> {
-                val intent = Intent(this, QrScannerActivity::class.java)
+                val intent = Intent(this, CaptureActivity::class.java)
                 startActivity(intent)
                 return true
             }

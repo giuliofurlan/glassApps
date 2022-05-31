@@ -52,6 +52,10 @@ class LiveCardService : Service() {
                 Log.d("test", imgFile.absolutePath)
                 remoteViews.setImageViewBitmap(R.id.imageView,myBitmap)
             }
+            else{
+                val intent = Intent(this, BrowserActivity::class.java)
+                startActivity(intent)
+            }
             liveCard?.setViews(remoteViews)
         } else {
             liveCard!!.navigate()

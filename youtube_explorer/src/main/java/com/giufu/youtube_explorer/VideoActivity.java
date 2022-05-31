@@ -34,6 +34,7 @@ public class VideoActivity extends YouTubeBaseActivity  {
 
         Intent intent = getIntent();
         String video_id = intent.getStringExtra("id");
+
         currentTimeView = (TextView) findViewById(R.id.time_text_view);
 
         youTubePlayerView = (YouTubePlayerView) findViewById(R.id.player);
@@ -45,6 +46,7 @@ public class VideoActivity extends YouTubeBaseActivity  {
                 public void onInitializationSuccess(YouTubePlayer.Provider provider,
                                                     YouTubePlayer youTubePlayer, boolean b) {
                     Log.d(TAG, "onInitializationSuccess: success");
+
                     youTubePlayer.loadVideo(video_id);
                     player = youTubePlayer;
                     player.setPlayerStyle(YouTubePlayer.PlayerStyle.CHROMELESS);
@@ -96,8 +98,10 @@ public class VideoActivity extends YouTubeBaseActivity  {
                 }
                 isPaused = !isPaused;
                 return true;
-            } else if (gesture == Gesture.TWO_TAP) {
+            } else if (gesture == Gesture.SWIPE_DOWN) {
                 // do something on two finger tap
+                finish();
+                System.exit(0);
                 return true;
             } else if (gesture == Gesture.SWIPE_RIGHT) {
                 player.seekToMillis(player.getCurrentTimeMillis()+30000);

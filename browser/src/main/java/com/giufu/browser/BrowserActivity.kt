@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -13,8 +14,8 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
-import android.os.Handler
 import android.os.SystemClock
+import android.preference.PreferenceManager
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -22,6 +23,7 @@ import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import com.google.android.glass.touchpad.Gesture
@@ -29,31 +31,33 @@ import com.google.android.glass.touchpad.GestureDetector
 import com.google.android.glass.touchpad.GestureDetector.BaseListener
 import java.io.File
 import java.io.FileOutputStream
-import java.util.*
 import kotlin.math.roundToInt
 
-class BrowserActivity : Activity(), SensorEventListener{
+class BrowserActivity : Activity(){
     private var mGestureDetector: GestureDetector? = null
     lateinit var myWebView: WebView
-    lateinit var sensorManager: SensorManager
-    private lateinit var accelerometer: Sensor
-    private lateinit var magnometer: Sensor
-    private lateinit var gyroscope: Sensor
     private lateinit var loadingView: TextView
-    var x = 320f
-    var y = 180f
     var selectionMode = false
-
-    //test only
     private lateinit var cursorImageView: ImageView
+    private lateinit var settings: SharedPreferences
+    private lateinit var editor: SharedPreferences.Editor
+
+    var lastX = 320f
+    var lastY= 320f
 
 
-    lateinit var cursorLayout: CursorLayout
+    lateinit var cursorLayout: FrameLayout
     var loadingFinished = true
     var redirect = false
-    
-    var initialX: Int? = null
-    var initialY: Int? = null
+
+
+    override fun onPause() {
+        super.onPause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +65,15 @@ class BrowserActivity : Activity(), SensorEventListener{
         setContentView(R.layout.browser_activity)
         loadingView = findViewById(R.id.loadingView) as TextView
         cursorImageView = findViewById(R.id.cursor_image) as ImageView
+        cursorImageView.x = 320f
+        cursorImageView.y = 180f
         myWebView = findViewById(R.id.main_web_view) as WebView
+        myWebView.isVerticalScrollBarEnabled = true
+        myWebView.isHorizontalScrollBarEnabled = false
+        myWebView.settings.domStorageEnabled = true
+
+        settings = PreferenceManager.getDefaultSharedPreferences(this)
+
         myWebView.setWebViewClient(object : WebViewClient() {
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
@@ -83,19 +95,13 @@ class BrowserActivity : Activity(), SensorEventListener{
         })
         var url = intent.getStringExtra("url")
         if (url == null){
-            url = "http://www.pornhub.com"
+            url = settings.getString("lastUrl", null)
         }
         myWebView.loadUrl(url)
         mGestureDetector = createGestureDetector(this)
-        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-        magnometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
-        gyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
-        sensorManager.registerListener(this,accelerometer,SensorManager.SENSOR_DELAY_NORMAL)
-        sensorManager.registerListener(this,magnometer,SensorManager.SENSOR_DELAY_FASTEST)
-        sensorManager.registerListener(this,gyroscope,SensorManager.SENSOR_DELAY_NORMAL)
+
         ////change type
-        cursorLayout = findViewById(R.id.cursor_layout) as CursorLayout
+        cursorLayout = findViewById(R.id.cursor_layout) as FrameLayout
 
     }
 
@@ -104,27 +110,46 @@ class BrowserActivity : Activity(), SensorEventListener{
         //Create a base listener for generic gestures
         gestureDetector.setBaseListener(BaseListener { gesture ->
             when (gesture) {
+
                 Gesture.TAP -> {
-                    webView2Image()
-                    finish()
-                    startService(Intent(this, LiveCardService::class.java))
+                    simulateClick(cursorImageView.x,cursorImageView.y)
                     return@BaseListener true
                 }
                 Gesture.TWO_TAP -> {
-                    simulateClick(x,y)
+                    selectionMode= !selectionMode
+                    if (!selectionMode){
+                        cursorImageView.visibility = INVISIBLE
+                    }
+                    else{
+                        cursorImageView.visibility = VISIBLE
+                    }
+                    Log.d("THREE", "EUREKA!")
+                }
+                Gesture.TWO_LONG_PRESS -> {
+                    if(loadingFinished){
+                        editor = settings.edit()
+                        editor.putString("lastUrl", myWebView.url)
+                        editor.commit()
+                        webView2Image()
+                        //onPause()
+                        finish()
+                        startService(Intent(this, LiveCardService::class.java))
+                    }
                     return@BaseListener true
                 }
                 Gesture.TWO_SWIPE_LEFT -> {
-                    myWebView.goBack()
+                    if (!selectionMode){
+                        myWebView.goBack()
+                    }
                     return@BaseListener true
                 }
                 Gesture.TWO_SWIPE_RIGHT -> {
-                    //myWebView.goForward()
-                    //myWebView.loadUrl("http://www.google.com")
-                    initialX = null
-                    initialY = null
+                    if (!selectionMode){
+                        myWebView.goForward()
+                    }
                     return@BaseListener true
                 }
+
                 Gesture.SWIPE_DOWN -> {
                     finish()
                 }
@@ -132,21 +157,39 @@ class BrowserActivity : Activity(), SensorEventListener{
             false
         })
         gestureDetector.setFingerListener { previousCount, currentCount ->
-            // do something on finger count changes
-            if(previousCount!=2 && currentCount==2){
-                selectionMode=true
-                cursorImageView.visibility = VISIBLE
-            }
-            else if(previousCount==2 && currentCount!=2){
-                selectionMode=false
-                //cursorImageView.visibility = INVISIBLE
-            }
-
         }
-        gestureDetector.setScrollListener { displacement, delta, velocity ->
+        gestureDetector.setOneFingerScrollListener { displacement, delta, velocity ->
             // simulate scrolling... will be implemented after
             Log.d("scrolling", "$displacement  $delta  $velocity")
-            myWebView.scrollBy(0, displacement.toInt()/5)
+            //https://developers.google.com/glass/develop/gdk/reference/com/google/android/glass/touchpad/GestureDetector.ScrollListener
+            if (selectionMode && (displacement>15 || displacement<-15)){
+                cursorImageView.x = lastX+(delta/5)
+                lastX = cursorImageView.x
+                if (lastX<=0){
+                    lastX = 640f
+                }
+                else if(lastX>=640){
+                    lastX = 0f
+                }
+            }
+            else{
+                myWebView.scrollBy(0, delta.toInt()/3)
+            }
+
+            false
+        }
+        gestureDetector.setTwoFingerScrollListener{ displacement, delta, velocity ->
+            Log.d("scrolling2", "$displacement  $delta  $velocity")
+            if (selectionMode && (delta>15 || delta<-15)){
+                cursorImageView.y = lastY+(delta/3)
+                lastY = cursorImageView.y
+                if (lastY<=0){
+                    lastY = 360f
+                }
+                else if(lastY>=360){
+                    lastY = 0f
+                }
+            }
             false
         }
         return gestureDetector
@@ -204,38 +247,6 @@ class BrowserActivity : Activity(), SensorEventListener{
         }
     }
 
-    @SuppressLint("SetTextI18n")
-    override fun onSensorChanged(p0: SensorEvent?) {
-        val event: SensorEvent = p0!!
-
-        if (p0.sensor.type == Sensor.TYPE_MAGNETIC_FIELD){
-            val degree = p0.values[0].roundToInt()
-            if (initialX == null){
-                initialX = degree
-            }
-            else{
-                x = degree.toFloat()*5
-                cursorImageView.x = 320f+((x-initialX!!)*5)
-                cursorImageView.y = 180f
-                //cursorImageView.y = 180f
-                if (cursorImageView.x > 640){
-                    cursorImageView.x = 640f
-                }
-                else if (cursorImageView.x < 0){
-                    cursorImageView.x - 0
-                }
-            }
-            //Log.d("X", cursorImageView.x.toString())
-        }
-        else if(p0.sensor.type == Sensor.TYPE_ACCELEROMETER){
-            val axisY = (event.values[1])-(9.81)
-            Log.d("Y", axisY.toString())
-        }
-    }
-
-    override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
-        Log.d("onAccuracyChanged","onAccuracyChanged")
-    }
 
     //https://stackoverflow.com/questions/20886857/how-to-simulate-a-tap-at-a-specific-coordinate-in-an-android-webview
     private fun simulateClick(x: Float, y: Float) {

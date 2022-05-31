@@ -6,6 +6,8 @@
         <entry key="../../../../layout/custom_preview.xml" value="0.3026041666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.26443768996960487" />
         <entry key="app/src/main/res/menu/live_card.xml" value="1.625" />
+        <entry key="browser/src/main/res/drawable-hdpi/circle.xml" value="0.205" />
+        <entry key="browser/src/main/res/drawable-hdpi/img.xml" value="0.205" />
         <entry key="browser/src/main/res/drawable-hdpi/slider_indeterminate.xml" value="0.138" />
         <entry key="browser/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.177" />
         <entry key="browser/src/main/res/drawable/ic_launcher_background.xml" value="0.177" />
@@ -43,11 +45,14 @@
         <entry key="youtube_enterprise/src/main/res/menu/main_menu.xml" value="0.9025" />
         <entry key="youtube_explorer/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.184" />
         <entry key="youtube_explorer/src/main/res/drawable/ic_launcher_background.xml" value="0.184" />
+        <entry key="youtube_explorer/src/main/res/layout/app_picker_list_item.xml" value="0.5198412698412699" />
+        <entry key="youtube_explorer/src/main/res/layout/browser_activity.xml" value="0.29875" />
         <entry key="youtube_explorer/src/main/res/layout/main_activity.xml" value="0.33958333333333335" />
         <entry key="youtube_explorer/src/main/res/layout/qr_scanner_activity.xml" value="0.2546875" />
         <entry key="youtube_explorer/src/main/res/layout/video_activity.xml" value="0.33958333333333335" />
         <entry key="youtube_explorer/src/main/res/menu/menu_activity.xml" value="0.34375" />
         <entry key="youtube_explorer/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.184" />
+        <entry key="youtube_explorer/src/main/res/xml/preferences.xml" value="0.5198412698412699" />
       </map>
     </option>
   </component>
